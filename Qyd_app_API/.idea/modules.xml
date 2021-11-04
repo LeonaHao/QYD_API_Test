@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Qyd_app_API.iml" filepath="$PROJECT_DIR$/.idea/Qyd_app_API.iml" />
+      <module fileurl="file://D:\脚本\轻易贷\Qyd_app_API\.idea\Qyd_app_API.iml" filepath="D:\脚本\轻易贷\Qyd_app_API\.idea\Qyd_app_API.iml" />
+      <module fileurl="file://D:\python_workspace\QYDAPITest\Qyd_app_API\.idea\Qyd_app_API.iml" filepath="D:\python_workspace\QYDAPITest\Qyd_app_API\.idea\Qyd_app_API.iml" />
+    </modules>
+  </component>
+</project>

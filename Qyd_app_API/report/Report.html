@@ -1,0 +1,1272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>【QA环境】移动端新产品：接口测试报告</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: verdana, arial, helvetica, sans-serif; font-size: 80%; }
+table       { font-size: 100%; }
+pre         { }
+
+/* -- heading ---------------------------------------------------------------------- */
+h1 {
+	font-size: 16pt;
+	color: gray;
+}
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+
+.heading .attribute {
+    margin-top: 1ex;
+    margin-bottom: 0;
+}
+
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+
+/* -- css div popup ------------------------------------------------------------------------ */
+a.popup_link {
+    font-size:12px;
+}
+
+a.popup_link:hover {
+    color: red;
+    font-size:12px;
+}
+
+.popup_window {
+    display: none;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    /*border: solid #627173 1px; */
+    padding: 10px;
+    background-color: #E6E6D6;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    text-align: left;
+    font-size:12px;
+    width: 500px;
+}
+
+}
+/* -- report ------------------------------------------------------------------------ */
+#show_detail_line {
+    margin-top: 3ex;
+    margin-bottom: 1ex;
+}
+#result_table {
+    width: 80%;
+    border-collapse: collapse;
+    border: 1px solid #777;
+}
+#header_row {
+    font-weight: bold;
+    color: white;
+    background-color: #777;
+}
+#result_table td {
+    border: 1px solid #777;
+    padding: 2px;
+}
+#total_row  { font-weight: bold; }
+.passClass  { background-color: #6c6; font-size:12px}
+.failClass  { background-color: #c60; font-size:12px}
+.errorClass { background-color: #c00; font-size:12px}
+.passCase   { color: #6c6;font-size:12px }
+.failCase   { color: #c60; font-weight: bold; font-size:12px}
+.errorCase  { color: #c00; font-weight: bold; font-size:12px}
+.hiddenRow  { display: none; font-size:12px}
+.testcase   { margin-left: 4em;font-size:12px; }
+.fonts {font-size:12px;}
+
+/* -- ending ---------------------------------------------------------------------- */
+#ending {
+}
+
+</style>
+
+</head>
+<body>
+<script language="javascript" type="text/javascript"><!--
+output_list = Array();
+
+/* level - 0:Summary; 1:Failed; 2:All */
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level < 1) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level > 1) {
+                tr.className = '';
+            }
+            else {
+                tr.className = 'hiddenRow';
+            }
+        }
+    }
+}
+
+
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        tid0 = 't' + cid.substr(1) + '.' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        if (toHide) {
+            document.getElementById('div_'+tid).style.display = 'none'
+            document.getElementById(tid).className = 'hiddenRow';
+        }
+        else {
+            document.getElementById(tid).className = '';
+        }
+    }
+}
+
+
+function showTestDetail(div_id){
+    var details_div = document.getElementById(div_id)
+    var displayState = details_div.style.display
+    // alert(displayState)
+    if (displayState != 'block' ) {
+        displayState = 'block'
+        details_div.style.display = 'block'
+    }
+    else {
+        details_div.style.display = 'none'
+    }
+}
+
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+
+/* obsoleted by detail in <div>
+function showOutput(id, name) {
+    var w = window.open("", //url
+                    name,
+                    "resizable,scrollbars,status,width=800,height=450");
+    d = w.document;
+    d.write("<pre>");
+    d.write(html_escape(output_list[id]));
+    d.write("\n");
+    d.write("<a href='javascript:window.close()'>close</a>\n");
+    d.write("</pre>\n");
+    d.close();
+}
+*/
+--></script>
+
+<div class='heading'>
+<h1>【QA环境】移动端新产品：接口测试报告</h1>
+<p class='attribute'><strong>Start Time:</strong> 2018-07-19 17:05:31</p>
+<p class='attribute'><strong>Duration:</strong> 0:00:46.685228</p>
+<p class='attribute'><strong>Status:</strong> Pass 33</p>
+
+<p class='description'>测试用例执行结果如下所示</p>
+</div>
+
+
+
+<p id='show_detail_line'>Show
+<a href='javascript:showCase(0)' class="btn btn-xs btn-primary">Summary</a>
+<a href='javascript:showCase(1)' class="btn btn-xs btn-danger">Failed</a>
+<a href='javascript:showCase(2)' class="btn btn-xs btn-info">All</a>
+</p>
+<table id='result_table'>
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="fonts">
+    <td class="fonts">Test Group/Test case</td>
+    <td class="fonts">Count</td>
+    <td class="fonts">Pass</td>
+    <td class="fonts">Fail</td>
+    <td class="fonts">Error</td>
+    <td class="fonts">View</td>
+</tr>
+
+<tr class='passClass'>
+    <td>buyloannmt.BuyLoannmt: 40.1一级市场购买--曾娟</td>
+    <td>4</td>
+    <td>4</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c1',4)">Detail</a></td>
+</tr>
+
+<tr id='pt1.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__1</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.1')" >
+        pass</a>
+
+    <div id='div_pt1.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.1: 2018-07-19 17:05:31,447 - root - INFO - ***************一级市场购买开始****************
+2018-07-19 17:05:31,448 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:32,690 - root - INFO - applogin is running success!
+2018-07-19 17:05:33,438 - root - INFO - 购买XYY: 平台剩余可投金额为0!
+2018-07-19 17:05:33,439 - root - INFO - ***************一级市场购买结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__2</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.2')" >
+        pass</a>
+
+    <div id='div_pt1.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.2: 2018-07-19 17:05:33,441 - root - INFO - ***************一级市场购买开始****************
+2018-07-19 17:05:33,442 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:34,531 - root - INFO - applogin is running success!
+2018-07-19 17:05:35,228 - root - INFO - 购买XZY: 平台剩余可投金额为0!
+2018-07-19 17:05:35,230 - root - INFO - ***************一级市场购买结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__3</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.3')" >
+        pass</a>
+
+    <div id='div_pt1.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.3: 2018-07-19 17:05:35,231 - root - INFO - ***************一级市场购买开始****************
+2018-07-19 17:05:35,232 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:37,029 - root - INFO - applogin is running success!
+2018-07-19 17:05:37,841 - root - INFO - 购买XYY: 平台剩余可投金额为0!
+2018-07-19 17:05:37,842 - root - INFO - ***************一级市场购买结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt1.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__4</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.4')" >
+        pass</a>
+
+    <div id='div_pt1.4' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.4').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt1.4: 2018-07-19 17:05:37,844 - root - INFO - ***************一级市场购买开始****************
+2018-07-19 17:05:37,845 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:38,991 - root - INFO - applogin is running success!
+2018-07-19 17:05:39,640 - root - INFO - 购买XZY: 平台剩余可投金额为0!
+2018-07-19 17:05:39,642 - root - INFO - ***************一级市场购买结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr class='passClass'>
+    <td>getAppreciationAmount.GetAppreciationAmount: 40.5【查询】新月盈、新众盈-预期收益--曾娟</td>
+    <td>2</td>
+    <td>2</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c2',2)">Detail</a></td>
+</tr>
+
+<tr id='pt2.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__1</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt2.1')" >
+        pass</a>
+
+    <div id='div_pt2.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt2.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt2.1: 2018-07-19 17:05:39,643 - root - INFO - ***************查询 新月盈、新众盈 预期收益开始****************
+2018-07-19 17:05:39,645 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:40,880 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 99999, 'successful': False, 'msg': '其他错误'}
+2018-07-19 17:05:41,036 - root - ERROR - 查询XYY预期收益失败:
+ 其他错误
+2018-07-19 17:05:41,038 - root - INFO - ***************查询 新月盈、新众盈 预期收益结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt2.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__2</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt2.2')" >
+        pass</a>
+
+    <div id='div_pt2.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt2.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt2.2: 2018-07-19 17:05:41,039 - root - INFO - ***************查询 新月盈、新众盈 预期收益开始****************
+2018-07-19 17:05:41,041 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:42,152 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 99999, 'successful': False, 'msg': '其他错误'}
+2018-07-19 17:05:42,320 - root - ERROR - 查询XZY预期收益失败:
+ 其他错误
+2018-07-19 17:05:42,322 - root - INFO - ***************查询 新月盈、新众盈 预期收益结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr class='passClass'>
+    <td>incomecalculator.IncomeCalculator: 40.2 收益计算器计算接口 --曾娟</td>
+    <td>2</td>
+    <td>2</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c3',2)">Detail</a></td>
+</tr>
+
+<tr id='pt3.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__1</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt3.1')" >
+        pass</a>
+
+    <div id='div_pt3.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt3.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt3.1: 2018-07-19 17:05:42,324 - root - INFO - ************** 收益计算器计算接口开始执行 **************
+入参为：  {'product': 'XYY', 'remainDays': '', 'totalDays': '38', 'test_name': '01', 'amount': '1000'}
+计算结果为：
+ {'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'data': {'profit': '8.44', 'amount': '1000'}, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:42,428 - root - INFO - XYY收益计算器：执行成功！
+2018-07-19 17:05:42,430 - root - INFO - ************** 收益计算器计算接口执行完毕 ************** 
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt3.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__2</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt3.2')" >
+        pass</a>
+
+    <div id='div_pt3.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt3.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt3.2: 2018-07-19 17:05:42,431 - root - INFO - ************** 收益计算器计算接口开始执行 **************
+入参为：  {'product': 'XYYA', 'remainDays': '10', 'totalDays': '38', 'test_name': '02', 'amount': '1000'}
+计算结果为：
+ {'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'data': {'profit': '2.52', 'amount': '1005.91'}, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:42,782 - root - INFO - XYYA收益计算器：执行成功！
+2018-07-19 17:05:42,784 - root - INFO - ************** 收益计算器计算接口执行完毕 ************** 
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr class='passClass'>
+    <td>nwcalculatorinfoshow.NwCalculatorInfoShow: 40.7 新月盈、新众盈计算器信息展示接口--曾娟</td>
+    <td>3</td>
+    <td>3</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c4',3)">Detail</a></td>
+</tr>
+
+<tr id='pt4.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__1</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt4.1')" >
+        pass</a>
+
+    <div id='div_pt4.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt4.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt4.1: 2018-07-19 17:05:42,786 - root - INFO - ************** 新月盈、新众盈计算器信息展示接口开始执行 **************
+信息展示结果为：
+ {'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 0, 'data': {'NwYyMinAmount': '100', 'NwYyMaxDays': '38', 'NwYyExpectSettleRate': '8.10'}, 'successful': True}
+2018-07-19 17:05:42,889 - root - INFO - NWYY计算器信息展示接口：执行成功！
+2018-07-19 17:05:42,891 - root - INFO - ************** 新月盈、新众盈计算器信息展示接口执行结束 ************** 
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt4.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__2</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt4.2')" >
+        pass</a>
+
+    <div id='div_pt4.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt4.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt4.2: 2018-07-19 17:05:42,894 - root - INFO - ************** 新月盈、新众盈计算器信息展示接口开始执行 **************
+信息展示结果为：
+ {'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 0, 'data': {'NwYyOptDayprofitrate': '0.0222', 'NwYyOptRemainDays': '38', 'NwYyOptMinAmount': '100', 'NwYyOptMaxDays': '38'}, 'successful': True}
+2018-07-19 17:05:43,014 - root - INFO - NWYYOPT计算器信息展示接口：执行成功！
+2018-07-19 17:05:43,015 - root - INFO - ************** 新月盈、新众盈计算器信息展示接口执行结束 ************** 
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt4.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__3</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt4.3')" >
+        pass</a>
+
+    <div id='div_pt4.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt4.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt4.3: 2018-07-19 17:05:43,017 - root - INFO - ************** 新月盈、新众盈计算器信息展示接口开始执行 **************
+信息展示结果为：
+ {'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 0, 'data': {'NwZyMinAmount': '100'}, 'successful': True}
+2018-07-19 17:05:43,129 - root - INFO - NWZY计算器信息展示接口：执行成功！
+2018-07-19 17:05:43,131 - root - INFO - ************** 新月盈、新众盈计算器信息展示接口执行结束 ************** 
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr class='passClass'>
+    <td>openclosewithappointment.OpenCloseWithAppointment: 40.3 开启和关闭预约理财接口【兼容之前的理财产品】--曾娟</td>
+    <td>18</td>
+    <td>18</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c5',18)">Detail</a></td>
+</tr>
+
+<tr id='pt5.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__1</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.1')" >
+        pass</a>
+
+    <div id='div_pt5.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.1: 2018-07-19 17:05:43,132 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:43,134 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:44,070 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:45,283 - root - INFO - 开启预约BUY_XYY: 成功!
+2018-07-19 17:05:45,285 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__10</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.2')" >
+        pass</a>
+
+    <div id='div_pt5.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.2: 2018-07-19 17:05:45,287 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:45,288 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:46,333 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:46,794 - root - INFO - 手动关闭预约BUY_QYY: 成功!
+2018-07-19 17:05:46,795 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__11</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.3')" >
+        pass</a>
+
+    <div id='div_pt5.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.3: 2018-07-19 17:05:46,797 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:46,798 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:47,827 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:48,352 - root - INFO - 开启预约BUY_ZRZQ: 成功!
+2018-07-19 17:05:48,353 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__12</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.4')" >
+        pass</a>
+
+    <div id='div_pt5.4' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.4').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.4: 2018-07-19 17:05:48,355 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:48,356 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:49,309 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:49,773 - root - INFO - 系统取消预约BUY_ZRZQ: 成功!
+2018-07-19 17:05:49,775 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.5' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__13</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.5')" >
+        pass</a>
+
+    <div id='div_pt5.5' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.5').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.5: 2018-07-19 17:05:49,777 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:49,778 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:51,037 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:51,949 - root - INFO - 开启预约BUY_YY: 成功!
+2018-07-19 17:05:51,951 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.6' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__14</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.6')" >
+        pass</a>
+
+    <div id='div_pt5.6' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.6').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.6: 2018-07-19 17:05:51,952 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:51,954 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:52,990 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:53,480 - root - INFO - 系统取消预约BUY_YY: 成功!
+2018-07-19 17:05:53,482 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.7' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__15</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.7')" >
+        pass</a>
+
+    <div id='div_pt5.7' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.7').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.7: 2018-07-19 17:05:53,483 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:53,485 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:54,458 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:55,178 - root - INFO - 开启预约BUY_YYZR: 成功!
+2018-07-19 17:05:55,179 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.8' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__16</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.8')" >
+        pass</a>
+
+    <div id='div_pt5.8' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.8').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.8: 2018-07-19 17:05:55,181 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:55,182 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:56,173 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:56,672 - root - INFO - 手动关闭预约BUY_YYZR: 成功!
+2018-07-19 17:05:56,675 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.9' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__17</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.9')" >
+        pass</a>
+
+    <div id='div_pt5.9' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.9').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.9: 2018-07-19 17:05:56,677 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:56,678 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:57,628 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:58,087 - root - INFO - 开启预约BUY_ZY: 成功!
+2018-07-19 17:05:58,089 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.10' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__18</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.10')" >
+        pass</a>
+
+    <div id='div_pt5.10' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.10').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.10: 2018-07-19 17:05:58,090 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:58,091 - root - INFO - qyd_app login is running...
+2018-07-19 17:05:59,108 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:05:59,823 - root - INFO - 系统取消预约BUY_ZY: 成功!
+2018-07-19 17:05:59,825 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.11' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__2</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.11')" >
+        pass</a>
+
+    <div id='div_pt5.11' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.11').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.11: 2018-07-19 17:05:59,826 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:05:59,828 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:01,040 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:01,504 - root - INFO - 手动关闭预约BUY_XYY: 成功!
+2018-07-19 17:06:01,506 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.12' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__3</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.12')" >
+        pass</a>
+
+    <div id='div_pt5.12' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.12').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.12: 2018-07-19 17:06:01,507 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:06:01,508 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:02,591 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:04,148 - root - INFO - 开启预约BUY_ZRXYY: 成功!
+2018-07-19 17:06:04,150 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.13' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__4</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.13')" >
+        pass</a>
+
+    <div id='div_pt5.13' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.13').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.13: 2018-07-19 17:06:04,151 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:06:04,152 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:05,195 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:05,904 - root - INFO - 系统取消预约BUY_ZRXYY: 成功!
+2018-07-19 17:06:05,906 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.14' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__5</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.14')" >
+        pass</a>
+
+    <div id='div_pt5.14' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.14').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.14: 2018-07-19 17:06:05,908 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:06:05,910 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:07,016 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:08,976 - root - INFO - 开启预约BUY_XZY: 成功!
+2018-07-19 17:06:08,978 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.15' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__6</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.15')" >
+        pass</a>
+
+    <div id='div_pt5.15' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.15').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.15: 2018-07-19 17:06:08,979 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:06:08,981 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:10,070 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:10,619 - root - INFO - 手动关闭预约BUY_XZY: 成功!
+2018-07-19 17:06:10,621 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.16' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__7</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.16')" >
+        pass</a>
+
+    <div id='div_pt5.16' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.16').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.16: 2018-07-19 17:06:10,622 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:06:10,623 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:11,953 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:13,605 - root - INFO - 开启预约BUY_XSB: 成功!
+2018-07-19 17:06:13,608 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.17' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__8</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.17')" >
+        pass</a>
+
+    <div id='div_pt5.17' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.17').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.17: 2018-07-19 17:06:13,610 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:06:13,613 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:14,816 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:15,493 - root - INFO - 手动关闭预约BUY_XSB: 成功!
+2018-07-19 17:06:15,495 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt5.18' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__9</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt5.18')" >
+        pass</a>
+
+    <div id='div_pt5.18' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt5.18').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt5.18: 2018-07-19 17:06:15,496 - root - INFO - ***************开启和关闭预约理财接口开始****************
+2018-07-19 17:06:15,498 - root - INFO - qyd_app login is running...
+2018-07-19 17:06:16,480 - root - INFO - applogin is running success!
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:17,181 - root - INFO - 开启预约BUY_QYY: 成功!
+2018-07-19 17:06:17,184 - root - INFO - ***************开启和关闭预约理财接口结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr class='passClass'>
+    <td>remainamount.RemainAmount: 【40.4查询】新月盈、新众盈、新月盈优选产品详情--曾娟</td>
+    <td>4</td>
+    <td>4</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c6',4)">Detail</a></td>
+</tr>
+
+<tr id='pt6.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__1</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt6.1')" >
+        pass</a>
+
+    <div id='div_pt6.1' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt6.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt6.1: 2018-07-19 17:06:17,185 - root - INFO - ***************查询新产品详情开始****************
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'data': {'NwMaxExpectRate': '8.10', 'limitAmount': '20000000', 'NwTransferRate': '8.1', 'totalAmount': '0', 'fromAmount': '10', 'cytransferTerm': 0}, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:17,387 - root - INFO - 查询XSB产品详情: 成功!
+2018-07-19 17:06:17,389 - root - INFO - ***************查询新产品详情结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt6.2' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__2</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt6.2')" >
+        pass</a>
+
+    <div id='div_pt6.2' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt6.2').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt6.2: 2018-07-19 17:06:17,390 - root - INFO - ***************查询新产品详情开始****************
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'data': {'NwMaxExpectRate': '8.10', 'limitAmount': '20000000', 'tDaysWithoutInterst': '15', 'NwTransferRate': '7.6', 'tenderPeriod': '30', 'totalAmount': '0', 'fromAmount': '0.02', 'NwMatchTime': '30分钟', 'cytransferTerm': 38}, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:17,581 - root - INFO - 查询XYY产品详情: 成功!
+2018-07-19 17:06:17,583 - root - INFO - ***************查询新产品详情结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt6.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__3</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt6.3')" >
+        pass</a>
+
+    <div id='div_pt6.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt6.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt6.3: 2018-07-19 17:06:17,585 - root - INFO - ***************查询新产品详情开始****************
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'data': {'NwMaxExpectRate': '8.10', 'limitAmount': '1000000000', 'tDaysWithoutInterst': '3', 'NwTransferRate': '7.6', 'highestRate': '10.08', 'buyTime': '50', 'totalAmount': '0.00', 'fromAmount': '1', 'NwMatchTime': '30分钟', 'cytransferTerm': '38'}, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:17,757 - root - INFO - 查询XYYOPT产品详情: 成功!
+2018-07-19 17:06:17,760 - root - INFO - ***************查询新产品详情结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='pt6.4' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test__4</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt6.4')" >
+        pass</a>
+
+    <div id='div_pt6.4' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt6.4').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt6.4: 2018-07-19 17:06:17,762 - root - INFO - ***************查询新产品详情开始****************
+{'status': 200, 'faultedProperties': [], 'errorCodes': [], 'code': 10000, 'data': {'NwMaxExpectRate': '9.02', 'limitAmount': '20000000', 'tDaysWithoutInterst': '4', 'NwTransferRate': '8.0', 'tenderPeriod': '30', 'totalAmount': '0', 'fromAmount': '1', 'NwMatchTime': '30分钟', 'cytransferTerm': 0}, 'successful': True, 'msg': '成功'}
+2018-07-19 17:06:18,128 - root - INFO - 查询XZY产品详情: 成功!
+2018-07-19 17:06:18,130 - root - INFO - ***************查询新产品详情结束****************
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+<tr id='total_row'>
+    <td class="fonts">Total</td>
+    <td class="fonts">33</td>
+    <td class="fonts" class="text text-success">33</td>
+    <td class="fonts" class="text text-danger">0</td>
+    <td class="fonts" class="text text-warning">0</td>
+    <td>&nbsp;</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+
+</body>
+</html>
